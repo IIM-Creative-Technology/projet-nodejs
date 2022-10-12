@@ -1,20 +1,55 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+ var http = require('http');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const { Server } = require("socket.io");
+
+// var cookieParser = require('cookie-parser');
+// var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
-app.use(logger('dev'));
+/**
+  * Get port from environment and store in Express.
+  */
+ 
+ var port = "3000";
+ app.set('port', port);
+ 
+ /**
+  * Create HTTP server.
+  */
+var server = http.createServer(app);
+const io = new Server(server, { 
+    cors: {
+        origin: "*",
+    }
+});
+
+
+io.on("connection", (socket) => {
+    console.log("new connection");
+})
+
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-module.exports = app;
+server.listen(port, () => {
+    console.log("listening to port 3000")
+})
+
+//module.exports = app;
