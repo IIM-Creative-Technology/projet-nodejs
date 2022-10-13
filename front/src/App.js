@@ -1,6 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from "react";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:3000";
 
+export default function ClientComponent() {
+  const [response, setResponse] = useState("");
+
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("FromAPI", data => {
+      setResponse(data);
+    });
+
+  }, []);
 function App() {
   return (
     <div className="App">
@@ -21,5 +34,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
