@@ -4,31 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Vakarm v2</title>
 </head>
 <body>
-    <ul id="messages"></ul>
-    <form id="form">
-        <input id="pseudo" type="text" name="pseudo" id="pseudo">
-        <input type="submit" value="Submit">
-    </form>
-
     
+    <div id="login" >
+        <form id="form">
+            <input id="pseudo" type="text" name="pseudo" id="pseudo">
+            <input type="submit" value="Login">
+        </form> 
+    </div>
+    <div id="users">
+        <ul id="messages"></ul>
+    </div>
+    <div id="choiceCategory">
+        
+    </div>
+
+    <button id="button" onclick="startGame()">Start Game</button>
 
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
 
     <script>
         const socket = io('http://127.0.0.1:3000');
-        
+        var users = [];
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var pseudo = document.getElementById('pseudo');
+        var logindiv = document.getElementById('login');
+        var listusers = document.getElementById('users');
+        var button = document.getElementById('button')
+        var arrayUsers = []
+        var choiceCategory =document.getElementById('choiceCategory')
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (pseudo.value) {
-      socket.emit('newUser', pseudo.value);
-      pseudo.value = '';
+        socket.emit('newUser', pseudo.value);
+        users.push(pseudo.value)
+        pseudo.value = '';
+        logindiv.style.display = "none";
+        listusers.style.display = "flex";
+        
     }
 
     // // API
@@ -49,8 +67,31 @@
   socket.on('userJoin', function(msg) {
     var item = document.createElement('li');
     item.textContent = msg;
+    
+    item.className = "pseudoUsers"
     messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
+    arrayUsers = []
+    arrayUsers = messages.childNodes
+    console.log(arrayUsers)
+    if(arrayUsers.length >= 3 && logindiv.style.display == "none"){
+        button.style.display = "flex";
+    }
+    else {
+        button.style.display = "none";
+    }
+  });
+
+
+
+  function startGame() {
+    socket.emit('gameStart', null);
+  };
+
+  socket.on('GameStarted', function(){
+    
+    console.log("test")
+    listusers.style.display = "none";
+    button.style.display = "none";
   });
 
     </script>

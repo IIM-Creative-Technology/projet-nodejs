@@ -43,7 +43,12 @@ io.on("connection", (socket) => {
     socket.on('newUser', (msg) => {
         io.emit('userJoin', msg);
       });
+    socket.on("gameStart", (socket) => {
+        io.emit('GameStarted', socket)
+     })
 })
+
+ 
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -52,6 +57,7 @@ app.use(bodyParser.urlencoded({  extended: true  }))
 app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'testfront')));
+app.use(express.static(__dirname + '/testfront'));
 app.use(cors())
 
 app.use('/', indexRouter);

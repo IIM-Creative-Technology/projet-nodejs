@@ -1,0 +1,42 @@
+*, body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: linear-gradient(#19df80, #36ea57);
+    height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#login{
+    display: flex;
+    flex-direction: column;
+
+}
+#users{
+    display: none;
+
+}
+#button {
+    display: none;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.pseudoUsers {
+    padding: 5%;
+    list-style: none;
+    font-size: 64px;
+    font-weight: bold;
+}
