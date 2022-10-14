@@ -45,10 +45,12 @@ io.on("connection", (socket) => {
 
     socket.on('newUser', (pseudo) => {
         socket.username = pseudo
+        users[pseudo] = pseudo
         console.log("joined :", socket.username)
     })
     socket.on('disconnect', () => {
         console.log("disconnected : ", socket.username)
+        users[socket.username] = null
     })
 })
 
