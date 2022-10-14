@@ -49,4 +49,4 @@ function makeVote(n, SelectionJoueur, joueurs) {
     }
   }
   
-
+}
