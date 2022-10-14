@@ -24,17 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `joueurs`
---
-
-CREATE TABLE `joueurs` (
-  `id` int(11) NOT NULL,
-  `pseudo` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `questions`
 --
 

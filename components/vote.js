@@ -1,7 +1,7 @@
 import joueurs from 'joueurs';
 import selectionJoueur from 'randompickerjoueur';
 
-function makeVote(n, SelectionJoueur, joueurs) {
+export function makeVote(n, SelectionJoueur, joueurs) {
     let voters = joueurs;
     for (let i = 0; i < n; i++) {
       let voter = {};
@@ -48,5 +48,6 @@ function makeVote(n, SelectionJoueur, joueurs) {
       return returnVal;
     }
   }
+}
   
 
