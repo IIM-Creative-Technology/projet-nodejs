@@ -39,6 +39,9 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
     console.log("new connection");
+    socket.on('newUser', (msg) => {
+        console.log('username: ' + msg);
+      });
 })
 
 app.use(logger('dev'));
@@ -47,12 +50,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'testfront')));
 
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/joingame', joinRouter)
+app.use('/joingame', joinRouter);
 
 server.listen(port, () => {
     console.log("listening to port 3000")

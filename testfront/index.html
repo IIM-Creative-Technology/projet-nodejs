@@ -8,7 +8,7 @@
 </head>
 <body>
     <form id="form">
-        <input type="text" name="pseudo" id="pseudo">
+        <input id="pseudo" type="text" name="pseudo" id="pseudo">
         <input type="submit" value="Submit">
     </form>
 
@@ -17,24 +17,17 @@
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
 
     <script>
-        // const socket = io('http://127.0.0.1:3000/');
-        const form = document.getElementById('form')
-        
+        const socket = io('http://127.0.0.1:3000');
+        var form = document.getElementById('form');
+         var pseudo = document.getElementById('pseudo');
 
-        const submit = (e) => {
-            e.preventDefault();
-            let formPseudo = e.target[0].value
-            console.log(formPseudo)
-            fetch('http://127.0.0.1:3000/joingame', {
-                method: 'POST',
-                body: {
-                    pseudo: formPseudo
-                },
-                
-            }).then(data => data.json()).then(response => console.log(response))
-        }
-
-        form.addEventListener('submit', submit)
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (pseudo.value) {
+      socket.emit('newUser', pseudo.value);
+      pseudo.value = '';
+    }
+  });
     </script>
 </body>
 </html>
