@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
+
 
 /* GET home page. */
 router.post('/', function(req, res, next) {
-  console.log(req)
+  
+  res.json({'msg': req.body})
 });
 
 module.exports = router;

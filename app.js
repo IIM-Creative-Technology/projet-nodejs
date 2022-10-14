@@ -11,6 +11,7 @@ const { Server } = require("socket.io");
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser')
+const cors = require('cors');
 
 
 var indexRouter = require('./routes/index');
@@ -40,18 +41,18 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log("new connection");
     socket.on('newUser', (msg) => {
-        console.log('username: ' + msg);
+        io.emit('userJoin', msg);
       });
 })
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({  extended: true  }))
 app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'testfront')));
-
+app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

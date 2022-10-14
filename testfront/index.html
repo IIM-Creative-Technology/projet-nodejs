@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <ul id="messages"></ul>
     <form id="form">
         <input id="pseudo" type="text" name="pseudo" id="pseudo">
         <input type="submit" value="Submit">
@@ -18,8 +19,10 @@
 
     <script>
         const socket = io('http://127.0.0.1:3000');
+        
+        var messages = document.getElementById('messages');
         var form = document.getElementById('form');
-         var pseudo = document.getElementById('pseudo');
+        var pseudo = document.getElementById('pseudo');
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -27,7 +30,29 @@
       socket.emit('newUser', pseudo.value);
       pseudo.value = '';
     }
+
+    // // API
+    // fetch('http://127.0.0.1:3000/joingame', {
+    //     method: 'POST',
+    //     data: pseudo,
+    // })
+    // .then(data => data.json()).then(response => {
+    //     var item = document.createElement('li');
+    //     item.textContent = response;
+    //     messages.appendChild(item);
+    //     console.log(response)})
+
+
+    
   });
+
+  socket.on('userJoin', function(msg) {
+    var item = document.createElement('li');
+    item.textContent = msg;
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+
     </script>
 </body>
 </html>
