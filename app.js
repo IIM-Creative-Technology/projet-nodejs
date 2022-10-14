@@ -37,14 +37,25 @@ const io = new Server(server, {
 });
 
 
-io.on("connection", (socket) => {
-    console.log("new connection");
+let users = {}
+
+io.on("connection", (socket) => {    
+    console.log("new connection")
+
+
+    socket.on('newUser', (pseudo) => {
+        socket.username = pseudo
+        console.log("joined :", socket.username)
+    })
+    socket.on('disconnect', () => {
+        console.log("disconnected : ", socket.username)
+    })
 })
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

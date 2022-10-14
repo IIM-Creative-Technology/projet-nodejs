@@ -7,34 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <form id="form">
+    <form id="form" method="POST">
         <input type="text" name="pseudo" id="pseudo">
         <input type="submit" value="Submit">
     </form>
 
-    
-
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
-
+    
     <script>
-        // const socket = io('http://127.0.0.1:3000/');
-        const form = document.getElementById('form')
+        const socket = io('http://127.0.0.1:3000/');
+
+        document.getElementById('form').addEventListener('submit', (e) => {
+            e.preventDefault()
+            socket.emit("newUser", e.target[0].value)
+        })
         
-
-        const submit = (e) => {
-            e.preventDefault();
-            let formPseudo = e.target[0].value
-            console.log(formPseudo)
-            fetch('http://127.0.0.1:3000/joingame', {
-                method: 'POST',
-                body: {
-                    pseudo: formPseudo
-                },
-                
-            }).then(data => data.json()).then(response => console.log(response))
-        }
-
-        form.addEventListener('submit', submit)
     </script>
 </body>
 </html>
