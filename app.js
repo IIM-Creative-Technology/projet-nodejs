@@ -19,7 +19,9 @@ const optionBd = {
     database: "projetnodejs",
   };
 
-app.use(myConnection(mysql, optionBd, "pool"));
+function ConnectionDB (err){
+    app.use(myConnection(mysql, optionBd, "pool"));
+};
 
 app.use(logger('dev'));
 app.use(express.json());
