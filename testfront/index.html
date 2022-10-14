@@ -5,16 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        button {
+            display:none;
+        }
+
+        .active {
+            display: flex;
+        }
+    </style>
 </head>
 <body>
+    
     <form id="form" method="POST">
         <input type="text" name="pseudo" id="pseudo">
         <input type="submit" value="Submit">
     </form>
-
+    <h2>Users online</h2>
+    <ul id="userlist">
+    </ul>
+    <button id="startbutton">Start game</button>
     <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
     
     <script>
+        const userList = document.getElementById('userlist')
+        const button = document.getElementById('startbutton')
+
         const socket = io('http://127.0.0.1:3000/');
 
         document.getElementById('form').addEventListener('submit', (e) => {
@@ -22,6 +38,23 @@
             socket.emit("newUser", e.target[0].value)
         })
         
+        socket.on('updateUsers', (e) => {
+            console.log(e)
+            let usersList = ''
+            let userArray = Object.values(e)
+
+            userArray.forEach(val => usersList+= `<li>${val}</li>`)
+            userList.innerHTML = usersList
+            if (userArray.length>2) {
+                button.classList.add('active')
+            } else {
+                button.classList.remove('active')
+            }
+        })
+
+        socket.on('disconnected', (e) => {
+            console.log(`${e} has disconnected`)
+        })
     </script>
 </body>
 </html>

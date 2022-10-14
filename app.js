@@ -42,15 +42,27 @@ let users = {}
 io.on("connection", (socket) => {    
     console.log("new connection")
 
+    const updateUserList = () => {
+        io.sockets.emit('updateUsers', users)
+    }
 
     socket.on('newUser', (pseudo) => {
         socket.username = pseudo
         users[pseudo] = pseudo
         console.log("joined :", socket.username)
+        updateUserList()
+
+    
     })
     socket.on('disconnect', () => {
-        console.log("disconnected : ", socket.username)
-        users[socket.username] = null
+        if (socket.username) {
+            console.log("disconnected : ", socket.username)
+            socket.broadcast.emit("disconnected", socket.username)
+            delete users[socket.username]
+            updateUserList()
+        }
+
+        
     })
 })
 
